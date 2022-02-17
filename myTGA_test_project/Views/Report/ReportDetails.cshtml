@@ -1,0 +1,104 @@
+﻿@model myTGA_test_project.Models.EmployeeReportViewModel
+
+@{
+    ViewData["Title"] = Model.Name;
+}
+
+<div class="block">
+    <div class="row">
+        <div class="col-6">
+            <table class="table">
+                <tbody>
+                    <tr>
+                        <td>
+                            Name:
+                        </td>
+                        <td>
+                            @Model.Name
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Date:
+                        </td>
+                        <td>
+                            @Model.DateFormatted
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <button id="repairReportBtn" class="btn btn-primary">Repair</button>
+        </div>
+        <div id="reportHours" class="col-6">
+        </div>
+        <div id="reportTable" class="col-sm-12">
+            <partial name="Partials/ReportTable" model="Model.Table" />
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(function() {
+            $("#repairReportBtn").click(function() {
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("RepairReport")",
+                    data: {
+                        id: @Model.Id
+                    },
+                    success: function(data) {
+                        if (data.isSuccess) {
+                            GetReportTable();
+                        }
+                    }
+                });
+            });
+
+            $(document.body).on("change", ".quick-hour-change", function() {
+                var id = $(this).data("id");
+                var hours = $(this).val();
+
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("SetHours")",
+                    data: {
+                        hoursId: id,
+                        hours: hours
+                    },
+                    success: function(data) {
+                        if (!data.isSuccess) {
+                            showNotify("An error occured", "danger");
+                        } else {
+                            showNotify("test", "success");
+                        }
+                    }
+                });
+            });
+
+            $.ajax({
+                type: "GET",
+                url: "@Url.Action("ReportHourControls")",
+                data: {
+                    id: @Model.Id
+                },
+                success: function(html) {
+                    $("#reportHours").html(html);
+                }
+            });
+        });
+
+        function GetReportTable() {
+            $.ajax({
+                type: "GET",
+                url: "@Url.Action("ReportTable")",
+                data: {
+                    id: @Model.Id
+                },
+                success: function(html) {
+                    $("#reportTable").html(html);
+                }
+            });
+        }
+    </script>
+}

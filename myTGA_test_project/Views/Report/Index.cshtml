@@ -1,0 +1,21 @@
+﻿@model List<myTGA_test_project.Models.EmployeeReportViewModel>
+
+@{
+    ViewData["Title"] = "Reports";
+}
+
+<div class="block head">
+    <div class="title">Reports</div>
+</div>
+
+<div class="block">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="list-group">
+                @foreach (var report in Model) {
+                    <a class="nav-link" asp-action="ReportDetails" asp-route-id="@report.Id">@report.Name</a>
+                }
+            </div>
+        </div>
+    </div>
+</div>

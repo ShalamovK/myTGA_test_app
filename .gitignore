@@ -1,0 +1,11 @@
+*.suo
+*.user
+bin
+obj
+packages
+.vs
+.idea
+docs
+/trunk/AEM.Web/logs/
+/trunk/AEM.Data.Import.Tool/Resources/images/
+/trunk/AEM.Data.Import.Tool/Resources/mappings.csv

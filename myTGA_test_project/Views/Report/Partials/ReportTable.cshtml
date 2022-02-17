@@ -1,0 +1,22 @@
+﻿@model myTGA_test_project.Models.EmployeeReportTableViewModel
+
+<table class="table">
+    <thead>
+        <tr>
+            <th></th>
+            @foreach (var employee in Model.Employees) {
+                <th>@employee.NameFormatted</th>
+            }
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var line in Model.Lines) {
+            <tr>
+                <td><b>@line.Task.Name</b></td>
+                @foreach (var hours in line.EmployeeHours) {
+                    <td><input type="number" min="0" step="1" class="quick-hour-change" data-id="@hours.EmployeeReportTaskHoursId" value="@hours.Hours" /></td>
+                }
+            </tr>
+        }
+    </tbody>
+</table>
